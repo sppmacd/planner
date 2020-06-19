@@ -24,6 +24,7 @@ class Group
         inline auto end() const { return m_taskLines.end(); }
         size_t addTask(std::string name, const Time& start, const Time& finish);
         bool removeTask(size_t id);
+        Task* getTask(size_t id);
         std::map<size_t, Task*> getRunningTasksAt(const Time&, unsigned line = LINE_EVERY, size_t spacing = 0) const;
         std::set<Time> getUsedTimes() const;
         TaskListUID getAllTasksSorted() const;

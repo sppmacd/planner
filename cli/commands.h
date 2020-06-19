@@ -15,6 +15,7 @@
     COMMAND_PROTOTYPE(add_task, "Add new task to current group") \
     COMMAND_PROTOTYPE(ch_group, "Change current group") \
     COMMAND_PROTOTYPE(ch_tasklist, "Change current task list") \
+    COMMAND_PROTOTYPE(edit_task, "Change some of task properties") \
     COMMAND_PROTOTYPE(exit, "Exit the console") \
     COMMAND_PROTOTYPE(help, "Print Help message") \
     COMMAND_PROTOTYPE(new_file, "Create the new file") \

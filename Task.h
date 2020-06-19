@@ -20,10 +20,19 @@ class Task
                 m_char = name[0];
         }
         inline Task() : m_char('\0') {}
+
         inline std::string getName() const { return m_name; }
+        inline void setName(const std::string& name) { m_name = name; }
+
         inline char getCharacter() const { return m_char; }
+        inline void setCharacter(char _char) { m_char = _char; }
+
         inline Time getStartTime() const { return m_start; }
+        inline void setStartTime(const Time& start) { m_start = start; }
+
         inline Time getFinishTime() const { return m_finish; }
+        inline void setFinishTime(const Time& finish) { m_finish = finish; }
+
         bool isRunningAt(const Time&, size_t spacing = 0) const;
 
     private:

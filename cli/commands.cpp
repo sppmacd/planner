@@ -123,6 +123,91 @@ COMMAND_PROTOTYPE(ch_tasklist)
     return 0;
 }
 
+COMMAND_PROTOTYPE(edit_task)
+{
+    if(args.size() < 3)
+    {
+        printf("Usage: edit_task <group> <task ID> [(name <name>|start <start time>|finish <finish time>)...]\n");
+        return 1;
+    }
+
+    // identifying data
+    GroupType groupType = Planner::the().parseGroupName(args[1]);
+    size_t taskId = 0;
+    try
+    {
+        taskId = stol(args[2]);
+    }
+    catch(...)
+    {
+        printf("Invalid task ID (is not a number)\n");
+        return 1;
+    }
+    TaskList* taskList = Planner::the().getTaskList();
+    if(!taskList)
+    {
+        printf("No current tasklist set! Use 'ch_tasklist'.\n");
+        return 1;
+    }
+    Group* group = taskList->getGroup(groupType);
+    if(!group)
+    {
+        printf("Invalid group specified!\n");
+        printf("Hint: Use '.' to refer to current group.\n");
+        return 1;
+    }
+    Task* task = group->getTask(taskId);
+    if(!task)
+    {
+        printf("Invalid task ID!\n");
+        printf("Hint: Use 'print' to get list of tasks.\n");
+        return 1;
+    }
+
+    // load values to change
+    if((args.size() - 3) % 2 != 0)
+    {
+        printf("Error: Invalid argument count! (was %zu)\n", (args.size() - 3));
+        printf("Hint: Use <name> <value> syntax, e.g 'edit_task . 0 name Test start 0:0:0'\n");
+        return 1;
+    }
+    std::string argName, argValue;
+    size_t changes = 0;
+    for(size_t s = 3; s < args.size(); s++)
+    {
+        if(argName.empty())
+        {
+            argName = args[s];
+            argValue.clear();
+        }
+        else
+        {
+            argValue = args[s];
+            if(argName == "name")
+                task->setName(argValue);
+            else if(argName == "start")
+                task->setStartTime(argValue);
+            else if(argName == "finish")
+                task->setFinishTime(argValue);
+            else
+            {
+                printf("Error: Invalid argument name: %s\n", argName.c_str());
+                printf("Hint: Valid argument names: 'name', 'start' and 'finish'\n");
+                continue;
+            }
+            changes++;
+            argName.clear();
+        }
+    }
+    if(changes > 0)
+    {
+        Planner::the().setDirty();
+        return 0;
+    }
+    printf("Nothing changed\n");
+    return 0;
+}
+
 COMMAND_PROTOTYPE(exit)
 {
     Planner::the().stop();

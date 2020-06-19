@@ -50,6 +50,21 @@ bool Group::removeTask(size_t id)
     return false;
 }
 
+Task* Group::getTask(size_t id)
+{
+    for(size_t s = 0; s < m_taskLines.size(); s++)
+    {
+        auto& taskLine = m_taskLines[s];
+        auto it = taskLine.find(id);
+        if(it == taskLine.end())
+        {
+            continue;
+        }
+        return it->second;
+    }
+    return NULL;
+}
+
 std::map<size_t, Task*> Group::getRunningTasksAt(const Time& time, unsigned line, size_t spacing) const
 {
     std::map<size_t, Task*> taskList;
