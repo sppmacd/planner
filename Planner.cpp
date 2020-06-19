@@ -158,6 +158,11 @@ bool Planner::save(std::string fileName)
         if(!ask("Overwrite file '" + fileName + "'"))
             return true;
     }
+    if(!m_dirty)
+    {
+        printf("Nothing changed\n");
+        return true;
+    }
 
     ByteStream stream;
     stream.open(fileName, std::ios::out | std::ios::trunc);
