@@ -4,5 +4,5 @@ set(SOURCES
 	"utils.cpp"
 )
 
-add_library(bspl-cli ${SOURCES})
-target_include_directories(bspl-cli PUBLIC ${CMAKE_SOURCE_DIR})
+add_library(bsplanner-cli ${SOURCES})
+target_include_directories(bsplanner-cli PUBLIC ${CMAKE_SOURCE_DIR})

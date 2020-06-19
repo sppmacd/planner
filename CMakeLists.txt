@@ -15,6 +15,6 @@ set(SOURCES
 	"Time.cpp"
 )
 
-add_executable(bspl ${SOURCES})
-target_link_libraries(bspl bspl-cli readline)
-target_include_directories(bspl PUBLIC ${CMAKE_SOURCE_DIR})
+add_executable(bsplanner ${SOURCES})
+target_link_libraries(bsplanner bsplanner-cli readline)
+target_include_directories(bsplanner PUBLIC ${CMAKE_SOURCE_DIR})
