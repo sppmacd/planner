@@ -95,10 +95,10 @@ void TaskList::printGraph(std::ostream& out, bool proportional) const
         else
             out << " \033[32m" << time << U::esc(ESC_RESET) << " | ";
 
+        std::map<size_t, std::pair<GroupType, Task*>> startingTasks;
         for(auto& par: m_groups)
         {
             unsigned taskCount = 0;
-            std::map<size_t, Task*> startingTasks;
             for(size_t s = 0; s < LINE_EVERY; s++)
             {
                 std::map<size_t, Task*> runningTasks = par.second->getRunningTasksAt(time, s, spacing);
@@ -111,7 +111,7 @@ void TaskList::printGraph(std::ostream& out, bool proportional) const
                     auto first = runningTasks.begin();
                     out << first->second->getCharacter();
                     if(first->second->getStartTime() == time)
-                        startingTasks.insert(*first);
+                        startingTasks.insert(std::make_pair(first->first, std::make_pair(par.first, first->second)));
                     taskCount++;
                 }
                 else
@@ -126,10 +126,9 @@ void TaskList::printGraph(std::ostream& out, bool proportional) const
                 out << " ";
 
             out << "| ";
-            for(auto& task: startingTasks)
-                out << "\033[33m" << task.second->getName() << "(" << task.first << ")" << ", ";
-
         }
+        for(auto& task: startingTasks)
+            out << "\033[33m" << task.second.second->getName() << "\033[0m (\033[1;33m" << task.second.first.getName() << "\033[0m:\033[1;33m" << task.first << "\033[0m)" << ", ";
         out << std::endl;
         lastTime = time;
     }
