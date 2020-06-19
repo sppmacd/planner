@@ -21,7 +21,7 @@ int command(std::vector<std::string>& args)
     else
     {
         std::cout << U::esc(ESC_ERROR);
-        printf("%s: invalid command", cmd.c_str());
+        printf("%s: invalid command\n", cmd.c_str());
     }
     return -1;
 }
